@@ -4,7 +4,8 @@ import {loadDBConnection} from './infrastructure/db'
 
 async function main() {
   const appConfig = loadConfig()
-  const dbModule = loadDBConnection({dbUri: appConfig.DB_URI})
+  const dbOptions = {user: appConfig.MONGO_DB_USER, pass: appConfig.MONGO_DB_PASS, authSource: appConfig.MONGO_DB_AUTH};
+  const dbModule = loadDBConnection({dbUri: appConfig.DB_URI}, {dbOptions})
   const webServerModule = loadWebServer({port: appConfig.PORT})
 
   await dbModule.start()

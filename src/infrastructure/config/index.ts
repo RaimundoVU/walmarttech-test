@@ -6,7 +6,10 @@ dotenv.config()
 interface ConfigInfo {
   NODE_ENV: string
   PORT: number
-  DB_URI: string
+  DB_URI: string,
+  MONGO_DB_USER: string,
+  MONGO_DB_PASS: string,
+  MONGO_DB_AUTH: string,
 }
 
 function loadConfig() {
@@ -14,6 +17,9 @@ function loadConfig() {
     NODE_ENV: Joi.string().valid('development', 'production').required(),
     PORT: Joi.number().required(),
     DB_URI: Joi.string().uri().required(),
+    MONGO_DB_USER: Joi.string().required(),
+    MONGO_DB_PASS: Joi.string().required(),
+    MONGO_DB_AUTH: Joi.string().required()
   })
 
   const {error, value} = configSchema.validate(process.env, {allowUnknown: true})
