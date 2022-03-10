@@ -1,0 +1,53 @@
+version: '3.1'
+
+services:
+        mongodb:
+                image: mongo
+                restart: always
+                ports:
+                        - 27017:27017
+                environment:
+                        # creating a database when container is initialised
+                        MONGO_INITDB_DATABASE: promotions
+                        MONGO_INITDB_ROOT_USERNAME: productListUser
+                        MONGO_INITDB_ROOT_PASSWORD: productListPassword
+                volumes:
+                        - mongo-db:/data/db
+                        - mongo-configdb:/data/configdb
+                        # create a new user admin password and give it readWrite access to defaultDB
+                        - ./mongo/001_users.js:/docker-entrypoint-initdb.d/001_users.js:ro
+
+        mongo-seeder:
+                image: mongo
+                links:
+                        - mongodb
+                volumes:
+                        - ./products-db/database:/database/
+                command:
+                        - /database/import.sh
+
+        demo-app:
+                build:
+                        context: .
+                        dockerfile: Dockerfile
+                depends_on:
+                        - mongodb
+                volumes:
+                        - ./:/app/
+                ports:
+                        - 8888:8888
+                environment:
+                        - NODE_ENV=development
+                        - PORT=8888
+                        - DB_URI=mongodb://productListUser:productListPassword@mongodb:27017/promotions?authSource=admin
+                        - MONGO_DB=promotions
+                        - MONGO_PORT=27017
+                        - MONGO_USER=productListUser
+                        - MONGO_PASS=productListPassword
+                        - MONGO_DB_AUTH=admin
+                command: "npm run dev"
+
+volumes:
+        #Configure shared volumes to be used in the services above.
+        mongo-db:
+        mongo-configdb:
