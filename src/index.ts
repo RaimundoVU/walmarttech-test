@@ -6,7 +6,6 @@ async function main() {
   const appConfig = loadConfig()
   const dbModule = loadDBConnection({dbUri: appConfig.DB_URI})
   const webServerModule = loadWebServer({port: appConfig.PORT})
-
   await dbModule.start()
   webServerModule.start()
 
