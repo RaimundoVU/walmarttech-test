@@ -17,7 +17,7 @@ interface ConfigInfo {
 
 function loadConfig() {
   const configSchema = Joi.object<ConfigInfo>({
-    NODE_ENV: Joi.string().valid('development', 'production').required(),
+    NODE_ENV: Joi.string().valid('development', 'production', 'test').required(),
     PORT: Joi.number().required(),
     DB_URI: Joi.string().uri().required(),
     MONGO_USER: Joi.string().required(),
