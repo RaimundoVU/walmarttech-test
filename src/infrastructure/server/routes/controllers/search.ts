@@ -1,6 +1,6 @@
 import { getProductsById, getProducts} from '../../../services/product.service';
 
-const checkPalindrome = (value: string) => {
+export const checkPalindrome = (value: string) => {
   let re = /[\W_]/g;
   let lowerStr = value.toLowerCase().replace(re, '');
   let reverseStr = lowerStr.split('').reverse().join('');
