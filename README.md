@@ -23,3 +23,23 @@ La api que retorna productos se encuentra en
 ``` localhost:8888/search-product?{searchValue}```
 
 * Reemplazar {searchValue} por el valor de búsqueda.
+
+# Pruebas
+
+Para ejecutar las pruebas, se debe ejecutar:
+
+```
+npm run test
+```
+
+# Opcional
+
+Para ejecutar el frontend, se debe levantar el servicio, clonar el repositorio y ejecutar de la siguiente forma:
+
+```
+docker-compose up -d
+cd ..
+git clone https://github.com/RaimundoVU/walmarttech-frontend.git
+cd walmarttech-frontend
+npm start
+```
